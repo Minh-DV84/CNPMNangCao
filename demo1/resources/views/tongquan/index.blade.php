@@ -6,27 +6,27 @@
 
     @if ($user->role === 'admin')
         <div class="row">
-            <div class="col-md-4">
-                <div class="card text-white bg-primary mb-3">
+            <div class="col-md-4 mb-3">
+                <div class="card text-white bg-primary h-100 border-0 shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title">Tổng số sinh viên</h5>
-                        <p class="card-text display-4">{{ $data['total_sinh_vien'] }}</p>
+                        <div class="fs-4 text-white">Tổng số sinh viên</div>
+                        <div class="display-3 fw-bold text-white">{{ $data['total_sinh_vien'] }}</div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card text-white bg-success mb-3">
+            <div class="col-md-4 mb-3">
+                <div class="card text-white bg-success h-100 border-0 shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title">Tổng số lớp học</h5>
-                        <p class="card-text display-4">{{ $data['total_lop_hoc'] }}</p>
+                        <div class="fs-4 text-white">Tổng số lớp học</div>
+                        <div class="display-3 fw-bold text-white">{{ $data['total_lop_hoc'] }}</div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card text-white bg-info mb-3">
+            <div class="col-md-4 mb-3">
+                <div class="card text-white bg-secondary h-100 border-0 shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title">Tổng số giảng viên</h5>
-                        <p class="card-text display-4">{{ $data['total_giang_vien'] }}</p>
+                        <div class="fs-4 text-white">Tổng số giảng viên</div>
+                        <div class="display-3 fw-bold text-white">{{ $data['total_giang_vien'] }}</div>
                     </div>
                 </div>
             </div>
@@ -34,19 +34,19 @@
 
     @elseif ($user->role === 'giang_vien')
         <div class="row mb-4">
-            <div class="col-md-6">
-                <div class="card text-white bg-primary mb-3">
+            <div class="col-md-6 mb-3">
+                <div class="card text-white bg-primary h-100 border-0 shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title">Số lớp phụ trách</h5>
-                        <p class="card-text display-4">{{ $data['total_lop'] }}</p>
+                        <div class="fs-4 text-white">Số lớp phụ trách</div>
+                        <div class="display-3 fw-bold text-white">{{ $data['total_lop'] }}</div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="card text-white bg-success mb-3">
+            <div class="col-md-6 mb-3">
+                <div class="card text-white bg-success h-100 border-0 shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title">Tổng số sinh viên</h5>
-                        <p class="card-text display-4">{{ $data['total_sinh_vien'] }}</p>
+                        <div class="fs-4 text-white">Tổng số sinh viên</div>
+                        <div class="display-3 fw-bold text-white">{{ $data['total_sinh_vien'] }}</div>
                     </div>
                 </div>
             </div>
