@@ -24,4 +24,14 @@ class SinhVien extends Model
     {
         return $this->belongsTo(LopHoc::class, 'lop_hoc_id');
     }
+
+    public function baiNops()
+    {
+        return $this->hasMany(BaiNop::class, 'sinh_vien_id');
+    }
+
+    public function diems()
+    {
+        return $this->hasMany(Diem::class, 'sinh_vien_id');
+    }
 }

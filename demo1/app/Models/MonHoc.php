@@ -39,6 +39,16 @@ class MonHoc extends Model
         return $this->hasMany(TaiLieu::class, 'mon_hoc_id');
     }
 
+    public function baiTaps()
+    {
+        return $this->hasMany(BaiTap::class, 'mon_hoc_id');
+    }
+
+    public function diems()
+    {
+        return $this->hasMany(Diem::class, 'mon_hoc_id');
+    }
+
     public function scopeVisibleTo(Builder $query, User $user): Builder
     {
         if ($user->role === 'admin') {

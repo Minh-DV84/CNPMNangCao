@@ -8,6 +8,9 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\TongQuanController;
 use App\Http\Controllers\BaiGiangController;
 use App\Http\Controllers\TaiLieuController;
+use App\Http\Controllers\BaiTapController;
+use App\Http\Controllers\BaiNopController;
+use App\Http\Controllers\DiemController;
 use App\Http\Middleware\CheckGioHanhChinh;
 
 // Redirect home based on auth status
@@ -44,8 +47,26 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('tailieu', TaiLieuController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
     });
 
-    Route::get('/baitap', function () { return view('placeholder', ['title' => 'Bài tập']); })->name('baitap');
-    Route::get('/diemso', function () { return view('placeholder', ['title' => 'Điểm số']); })->name('diemso');
+    // Bài tập: mọi role được xem nội dung phù hợp; admin/giảng viên quản lý bài tập
+    Route::middleware('role:admin,giang_vien,sinh_vien')->group(function () {
+        Route::get('bai-nop/{bainop}/download', [BaiNopController::class, 'download'])->name('bai-nop.download');
+        Route::resource('baitap', BaiTapController::class)->only(['index', 'show']);
+    });
+    Route::middleware('role:admin,giang_vien')->group(function () {
+        Route::resource('baitap', BaiTapController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
+        Route::patch('bai-nop/{bainop}/cham-diem', [BaiNopController::class, 'grade'])->name('bai-nop.grade');
+    });
+    Route::middleware('role:sinh_vien')->group(function () {
+        Route::post('baitap/{baitap}/nop-bai', [BaiNopController::class, 'store'])->name('baitap.submit');
+    });
+    // Điểm số: sinh viên chỉ xem điểm của mình; admin/giảng viên được nhập điểm theo quyền
+    Route::middleware('role:admin,giang_vien,sinh_vien')->group(function () {
+        Route::get('/diemso', [DiemController::class, 'index'])->name('diemso');
+        Route::get('/diemso/xuat-csv', [DiemController::class, 'export'])->name('diemso.export');
+    });
+    Route::middleware('role:admin,giang_vien')->group(function () {
+        Route::post('/diemso/luu', [DiemController::class, 'save'])->name('diemso.save');
+    });
     Route::get('/huongdan', function () { return view('placeholder', ['title' => 'Hướng dẫn']); })->name('huongdan');
     Route::get('/cauhoi', function () { return view('placeholder', ['title' => 'Câu hỏi thường gặp']); })->name('cauhoi');
 

@@ -11,6 +11,8 @@ use Database\Seeders\GiangVienSeeder;
 use Database\Seeders\UserSeeder;
 use Database\Seeders\MonHocSeeder;
 use Database\Seeders\BaiGiangTaiLieuSeeder;
+use Database\Seeders\BaiTapSeeder;
+use Database\Seeders\DiemSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -30,6 +32,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             MonHocSeeder::class,
             BaiGiangTaiLieuSeeder::class,
+            BaiTapSeeder::class,
+            DiemSeeder::class,
         ]);
 
         
