@@ -38,8 +38,17 @@
 </style>
 @endpush
 <aside class="sidebar">
-      {{-- Menu động lấy từ CSDL, gom theo nhóm --}}
-      @foreach (collect($menuHienThi->get('sidebar', []))->groupBy('nhom') as $nhom => $menus)
+      {{-- Menu động lấy từ CSDL, gom theo nhóm, lọc theo role --}}
+      @php
+        $userRole = Auth::check() ? Auth::user()->role : 'guest';
+        $sidebarMenus = collect($menuHienThi->get('sidebar', []))
+            ->filter(function ($menu) use ($userRole) {
+                $roles = explode(',', $menu->roles ?? 'admin,giang_vien,sinh_vien');
+                return in_array($userRole, $roles);
+            })
+            ->groupBy('nhom');
+      @endphp
+      @foreach ($sidebarMenus as $nhom => $menus)
         @if ($nhom !== '')
           <h3>{{ $nhom }}</h3>
         @endif

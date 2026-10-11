@@ -18,5 +18,16 @@ class LopHoc extends Model
         'ghi_chu',
         'si_so',
         'trang_thai',
+        'giang_vien_id',
     ];
+
+    public function sinhViens()
+    {
+        return $this->hasMany(SinhVien::class, 'lop_hoc_id');
+    }
+
+    public function giangVien()
+    {
+        return $this->belongsTo(GiangVien::class, 'giang_vien_id');
+    }
 }

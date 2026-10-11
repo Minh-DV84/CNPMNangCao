@@ -12,23 +12,24 @@ class MenuSeeder extends Seeder
      */
     public function run(): void
     {
+        \App\Models\Menu::query()->delete();
         $menus = [
-            ['ten' => 'Trang chủ', 'url' => '/', 'vi_tri' => 'header', 'nhom' => null],
-            ['ten' => 'Giới thiệu', 'url' => '#', 'vi_tri' => 'header', 'nhom' => null],
-            ['ten' => 'Liên hệ', 'url' => '#', 'vi_tri' => 'header', 'nhom' => null],
+            ['ten' => 'Trang chủ', 'url' => '/', 'vi_tri' => 'header', 'nhom' => null, 'roles' => 'admin,giang_vien,sinh_vien'],
+            ['ten' => 'Giới thiệu', 'url' => '#', 'vi_tri' => 'header', 'nhom' => null, 'roles' => 'admin,giang_vien,sinh_vien'],
+            ['ten' => 'Liên hệ', 'url' => '#', 'vi_tri' => 'header', 'nhom' => null, 'roles' => 'admin,giang_vien,sinh_vien'],
 
-            ['ten' => 'Tổng quan', 'url' => '#', 'vi_tri' => 'sidebar', 'nhom' => 'Danh mục'],
-            ['ten' => 'Sinh viên', 'url' => '/sinhvien', 'vi_tri' => 'sidebar', 'nhom' => 'Danh mục'],
-            ['ten' => 'Bài giảng', 'url' => '#', 'vi_tri' => 'sidebar', 'nhom' => 'Danh mục'],
-            ['ten' => 'Bài tập', 'url' => '#', 'vi_tri' => 'sidebar', 'nhom' => 'Danh mục'],
-            ['ten' => 'Điểm số', 'url' => '#', 'vi_tri' => 'sidebar', 'nhom' => 'Danh mục'],
-            ['ten' => 'Tài liệu', 'url' => '#', 'vi_tri' => 'sidebar', 'nhom' => 'Danh mục'],
+            ['ten' => 'Tổng quan', 'url' => '/tongquan', 'vi_tri' => 'sidebar', 'nhom' => '', 'roles' => 'admin,giang_vien,sinh_vien'],
+            ['ten' => 'Hướng dẫn', 'url' => '/huongdan', 'vi_tri' => 'sidebar', 'nhom' => '', 'roles' => 'admin,giang_vien,sinh_vien'],
+            ['ten' => 'Câu hỏi thường gặp', 'url' => '/cauhoi', 'vi_tri' => 'sidebar', 'nhom' => '', 'roles' => 'admin,giang_vien,sinh_vien'],
 
-            ['ten' => 'Hướng dẫn', 'url' => '#', 'vi_tri' => 'sidebar', 'nhom' => 'Hỗ trợ'],
-            ['ten' => 'Câu hỏi thường gặp', 'url' => '#', 'vi_tri' => 'sidebar', 'nhom' => 'Hỗ trợ'],
+            ['ten' => 'Sinh viên', 'url' => '/sinhvien', 'vi_tri' => 'sidebar', 'nhom' => 'Quản lý', 'roles' => 'admin,giang_vien'],
+            ['ten' => 'Quản lý lớp học', 'url' => '/lophoc', 'vi_tri' => 'sidebar', 'nhom' => 'Quản lý', 'roles' => 'admin,giang_vien'],
+            ['ten' => 'Quản lý menu', 'url' => '/menu', 'vi_tri' => 'sidebar', 'nhom' => 'Quản lý', 'roles' => 'admin'],
 
-            ['ten' => 'Quản lý lớp học', 'url' => '/lophoc', 'vi_tri' => 'sidebar', 'nhom' => 'Quản trị'],
-            ['ten' => 'Quản lý menu', 'url' => '/menu', 'vi_tri' => 'sidebar', 'nhom' => 'Quản trị'],
+            ['ten' => 'Bài giảng', 'url' => '/baigiang', 'vi_tri' => 'sidebar', 'nhom' => 'Học tập', 'roles' => 'admin,giang_vien,sinh_vien'],
+            ['ten' => 'Bài tập', 'url' => '/baitap', 'vi_tri' => 'sidebar', 'nhom' => 'Học tập', 'roles' => 'admin,giang_vien,sinh_vien'],
+            ['ten' => 'Điểm số', 'url' => '/diemso', 'vi_tri' => 'sidebar', 'nhom' => 'Học tập', 'roles' => 'admin,giang_vien,sinh_vien'],
+            ['ten' => 'Tài liệu', 'url' => '/tailieu', 'vi_tri' => 'sidebar', 'nhom' => 'Học tập', 'roles' => 'admin,giang_vien,sinh_vien'],
         ];
 
         foreach ($menus as $thuTu => $menu) {

@@ -43,6 +43,39 @@
       color: #fff;
       border-bottom-color: var(--c-accent);
     }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .user-info .user-name {
+      font-weight: 600;
+    }
+
+    .user-info .user-role {
+      font-size: 12px;
+      opacity: 0.8;
+      background: rgba(255,255,255,0.2);
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    .btn-logout {
+      background: var(--c-accent);
+      color: var(--c-header);
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-logout:hover {
+      background: #dd6b20;
+    }
 </style>
 @endpush
 <header class="header">
@@ -54,4 +87,16 @@
           @endforeach
         </ul>
       </nav>
+      @auth
+        <div class="user-info">
+          <div>
+            <span class="user-name">{{ Auth::user()->name }}</span>
+            <span class="user-role">{{ Auth::user()->role_label }}</span>
+          </div>
+          <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="btn-logout">Đăng xuất</button>
+          </form>
+        </div>
+      @endauth
 </header>

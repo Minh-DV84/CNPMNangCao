@@ -17,6 +17,22 @@ class StoreMenuRequest extends FormRequest
     }
 
     /**
+     * Checkbox roles gửi lên dưới dạng mảng; database lưu một chuỗi phân cách bằng dấu phẩy.
+     */
+    protected function prepareForValidation(): void
+    {
+        $roles = $this->input('roles', array_keys(config('auth.roles', [
+            'admin' => 'Quản trị viên',
+            'giang_vien' => 'Giảng viên',
+            'sinh_vien' => 'Sinh viên',
+        ])));
+
+        $this->merge([
+            'roles' => is_array($roles) ? implode(',', $roles) : trim((string) $roles),
+        ]);
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      */
     public function rules(): array
@@ -29,6 +45,7 @@ class StoreMenuRequest extends FormRequest
             'nhom' => 'nullable|string|max:100',
             'thu_tu' => 'required|integer|min:0',
             'trang_thai' => 'required|boolean',
+            'roles' => ['required', 'string', 'regex:/^(admin|giang_vien|sinh_vien)(,(admin|giang_vien|sinh_vien))*$/'],
         ];
     }
 
@@ -46,6 +63,7 @@ class StoreMenuRequest extends FormRequest
             'in' => ':attribute không hợp lệ.',
             'url.regex' => 'Đường dẫn phải bắt đầu bằng /, # hoặc http(s)://.',
             'thu_tu.min' => 'Thứ tự phải từ :min trở lên.',
+            'roles.regex' => 'Quyền truy cập không hợp lệ.',
         ];
     }
 
@@ -61,6 +79,7 @@ class StoreMenuRequest extends FormRequest
             'nhom' => 'Nhóm',
             'thu_tu' => 'Thứ tự',
             'trang_thai' => 'Trạng thái',
+            'roles' => 'Quyền truy cập',
         ];
     }
 }

@@ -69,3 +69,22 @@
         <div class="invalid-feedback">{{ $message }}</div>
     @enderror
 </div>
+
+<div class="mb-3">
+    <label class="form-label">Quyền truy cập <span class="text-danger">*</span></label>
+    @php
+        $selectedRoles = old('roles', $menu?->roles ?? 'admin,giang_vien,sinh_vien');
+        $selectedRoles = is_array($selectedRoles) ? $selectedRoles : explode(',', $selectedRoles);
+    @endphp
+    @foreach ($roleOptions as $role => $label)
+        <div class="form-check">
+            <input type="checkbox" id="role_{{ $role }}" name="roles[]" value="{{ $role }}"
+                   class="form-check-input @error('roles') is-invalid @enderror"
+                   @checked(in_array($role, $selectedRoles, true))>
+            <label for="role_{{ $role }}" class="form-check-label">{{ $label }}</label>
+        </div>
+    @endforeach
+    @error('roles')
+        <div class="invalid-feedback d-block">{{ $message }}</div>
+    @enderror
+</div>

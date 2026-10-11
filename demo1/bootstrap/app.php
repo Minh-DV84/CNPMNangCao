@@ -5,6 +5,7 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\AuthenticationException;
 
@@ -19,6 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
         //
         $middleware->alias([
             'check.gio.hanh.chinh' => \App\Http\Middleware\CheckGioHanhChinh::class,
+            'role' => \App\Http\Middleware\EnsureRole::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
@@ -39,5 +41,11 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($request->is('api/*')) {
                 return response()->json(['message' => 'Unauthenticated'], 401);
             }
+        });
+        $exceptions->render(function (AccessDeniedHttpException $e, Request $request) {
+            if ($request->is('api/*')) {
+                return response()->json(['message' => 'Forbidden'], 403);
+            }
+            return response()->view('errors.403', [], 403);
         });
     })->create();

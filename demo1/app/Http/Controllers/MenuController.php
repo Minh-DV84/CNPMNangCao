@@ -13,6 +13,12 @@ class MenuController extends Controller
     // Các cột được phép sắp xếp (không lấy thẳng tên cột từ URL để tránh SQL injection)
     private const SORTABLE = ['id', 'ten', 'url', 'vi_tri', 'nhom', 'thu_tu', 'trang_thai'];
 
+    private const ROLE_OPTIONS = [
+        'admin' => 'Quản trị viên',
+        'giang_vien' => 'Giảng viên',
+        'sinh_vien' => 'Sinh viên',
+    ];
+
     private const PER_PAGE_OPTIONS = [10, 20, 50, 100];
 
     /**
@@ -68,7 +74,7 @@ class MenuController extends Controller
      */
     public function create()
     {
-        return view('menus.create');
+        return view('menus.create', ['roleOptions' => self::ROLE_OPTIONS]);
     }
 
     /**
@@ -86,7 +92,10 @@ class MenuController extends Controller
      */
     public function edit(Menu $menu)
     {
-        return view('menus.edit', ['menu' => $menu]);
+        return view('menus.edit', [
+            'menu' => $menu,
+            'roleOptions' => self::ROLE_OPTIONS,
+        ]);
     }
 
     /**

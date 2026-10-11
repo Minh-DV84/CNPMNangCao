@@ -22,6 +22,7 @@ class Menu extends Model
         'nhom',
         'thu_tu',
         'trang_thai',
+        'roles',
     ];
 
     /**

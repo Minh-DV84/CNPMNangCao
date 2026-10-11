@@ -6,6 +6,9 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Database\Seeders\LopHocSeeder;
+use Database\Seeders\SinhVienSeeder;
+use Database\Seeders\GiangVienSeeder;
+use Database\Seeders\UserSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,12 +21,11 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
         $this->call([
-            LopHocSeeder::class,
             MenuSeeder::class,
-        ]);
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            LopHocSeeder::class,
+            GiangVienSeeder::class,
+            SinhVienSeeder::class,
+            UserSeeder::class,
         ]);
 
         
