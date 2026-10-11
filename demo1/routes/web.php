@@ -67,8 +67,8 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware('role:admin,giang_vien')->group(function () {
         Route::post('/diemso/luu', [DiemController::class, 'save'])->name('diemso.save');
     });
-    Route::get('/huongdan', function () { return view('placeholder', ['title' => 'Hướng dẫn']); })->name('huongdan');
-    Route::get('/cauhoi', function () { return view('placeholder', ['title' => 'Câu hỏi thường gặp']); })->name('cauhoi');
+    Route::get('/huongdan', function () { return view('huongdan'); })->name('huongdan');
+    Route::get('/cauhoi', function () { return view('cauhoi'); })->name('cauhoi');
 
     // sinhvien: admin full, giang_vien read-only, sinh_vien denied
     Route::middleware('role:admin,giang_vien')->group(function () {
