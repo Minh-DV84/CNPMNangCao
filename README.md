@@ -3,13 +3,43 @@
 Ứng dụng quản lý đào tạo xây dựng bằng Laravel 13, MySQL và giao diện HUCE.Web.
 Mã nguồn Laravel nằm trong thư mục `demo1`.
 
-## Công nghệ
+## Tài khoản mẫu
 
-- PHP 8.5+
-- Laravel 13
-- MySQL
-- Blade và Bootstrap 5
-- Laravel Eloquent ORM
+Các tài khoản được tạo trong `demo1/database/seeders/UserSeeder.php`.
+
+| Role | Tài khoản đăng nhập | Mật khẩu |
+|---|---|---|
+| Admin | `admin@huce.edu.vn` | `Admin@123` |
+| Giảng viên | `gv1@huce.edu.vn` | `GiangVien@123` |
+| Giảng viên | `gv2@huce.edu.vn` | `GiangVien@123` |
+| Giảng viên | `gv3@huce.edu.vn` | `GiangVien@123` |
+| Sinh viên | `1011068` | `SinhVien@123` |
+| Sinh viên | `0110168` | `SinhVien@123` |
+
+Sinh viên đăng nhập bằng mã sinh viên 7 chữ số thay vì email. Các tài khoản mẫu chỉ dùng cho môi trường phát triển; cần đổi hoặc vô hiệu hóa trước khi triển khai thật.
+
+## Quyền theo role
+
+### Admin
+
+- Quản lý sinh viên, lớp học và menu.
+- Quản lý toàn bộ môn học, bài giảng, tài liệu và bài tập.
+- Nhập/sửa điểm của mọi lớp và môn.
+- Xuất bảng điểm CSV.
+
+### Giảng viên
+
+- Xem sinh viên thuộc lớp mình phụ trách.
+- Quản lý bài giảng, tài liệu và bài tập của môn mình dạy.
+- Xem bài nộp, chấm điểm và nhập điểm cho môn/lớp được phân công.
+- Không truy cập được dữ liệu của môn hoặc lớp khác.
+
+### Sinh viên
+
+- Xem bài giảng, tài liệu và bài tập thuộc lớp của mình.
+- Nộp hoặc nộp lại bài trước hạn.
+- Xem điểm và nhận xét của chính mình.
+- Không có quyền tạo, sửa, xóa hoặc nhập điểm.
 
 ## Chức năng chính
 
@@ -85,43 +115,6 @@ npm run dev
 
 Mở trình duyệt tại http://127.0.0.1:8000.
 
-## Tài khoản mẫu
-
-Các tài khoản được tạo trong `demo1/database/seeders/UserSeeder.php`.
-
-| Role | Tài khoản đăng nhập | Mật khẩu |
-|---|---|---|
-| Admin | `admin@huce.edu.vn` | `Admin@123` |
-| Giảng viên | `gv1@huce.edu.vn` | `GiangVien@123` |
-| Giảng viên | `gv2@huce.edu.vn` | `GiangVien@123` |
-| Giảng viên | `gv3@huce.edu.vn` | `GiangVien@123` |
-| Sinh viên | `1011068` | `SinhVien@123` |
-| Sinh viên | `0110168` | `SinhVien@123` |
-
-Sinh viên đăng nhập bằng mã sinh viên 7 chữ số thay vì email. Các tài khoản mẫu chỉ dùng cho môi trường phát triển; cần đổi hoặc vô hiệu hóa trước khi triển khai thật.
-
-## Quyền theo role
-
-### Admin
-
-- Quản lý sinh viên, lớp học và menu.
-- Quản lý toàn bộ môn học, bài giảng, tài liệu và bài tập.
-- Nhập/sửa điểm của mọi lớp và môn.
-- Xuất bảng điểm CSV.
-
-### Giảng viên
-
-- Xem sinh viên thuộc lớp mình phụ trách.
-- Quản lý bài giảng, tài liệu và bài tập của môn mình dạy.
-- Xem bài nộp, chấm điểm và nhập điểm cho môn/lớp được phân công.
-- Không truy cập được dữ liệu của môn hoặc lớp khác.
-
-### Sinh viên
-
-- Xem bài giảng, tài liệu và bài tập thuộc lớp của mình.
-- Nộp hoặc nộp lại bài trước hạn.
-- Xem điểm và nhận xét của chính mình.
-- Không có quyền tạo, sửa, xóa hoặc nhập điểm.
 
 ## Các URL chính
 
