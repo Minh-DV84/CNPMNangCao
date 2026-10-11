@@ -37,12 +37,13 @@ class LopHocController extends Controller
         $perPage = (int) ($filters['perPage'] ?? 10);
 
         $lopHocs = LopHoc::query()
+            ->with('giangVien')
             ->when(isset($filters['keyword']), function ($query) use ($filters) {
                 $keyword = '%' . $filters['keyword'] . '%';
                 $query->where(function ($q) use ($keyword) {
                     $q->where('ten_lop', 'like', $keyword)
                         ->orWhere('ma_lop', 'like', $keyword)
-                        ->orWhere('giao_vien', 'like', $keyword);
+                        ->orWhereHas('giangVien', fn ($giangVienQuery) => $giangVienQuery->where('ho_ten', 'like', $keyword));
                 });
             })
             ->when(isset($filters['trang_thai']), fn ($query) => $query->where('trang_thai', $filters['trang_thai']))
@@ -88,7 +89,7 @@ class LopHocController extends Controller
      */
     public function show(LopHoc $lophoc)
     {
-        return view('lop_hocs.show', ['lopHoc' => $lophoc]);
+        return view('lop_hocs.show', ['lopHoc' => $lophoc->load('giangVien')]);
     }
 
     /**

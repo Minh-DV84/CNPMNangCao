@@ -9,6 +9,8 @@ use Database\Seeders\LopHocSeeder;
 use Database\Seeders\SinhVienSeeder;
 use Database\Seeders\GiangVienSeeder;
 use Database\Seeders\UserSeeder;
+use Database\Seeders\MonHocSeeder;
+use Database\Seeders\BaiGiangTaiLieuSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -26,6 +28,8 @@ class DatabaseSeeder extends Seeder
             GiangVienSeeder::class,
             SinhVienSeeder::class,
             UserSeeder::class,
+            MonHocSeeder::class,
+            BaiGiangTaiLieuSeeder::class,
         ]);
 
         

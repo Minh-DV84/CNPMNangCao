@@ -135,7 +135,7 @@
                 <td>{{ $lopHoc->id }}</td>
                 <td><a href="{{ route('lophoc.show', $lopHoc) }}">{{ $lopHoc->ten_lop }}</a></td>
                 <td>{{ $lopHoc->ma_lop }}</td>
-                <td>{{ $lopHoc->giao_vien }}</td>
+                <td>{{ $lopHoc->giangVien?->ho_ten ?? $lopHoc->giao_vien }}</td>
                 <td>{{ $lopHoc->so_dien_thoai_gvcn }}</td>
                 <td>{{ $lopHoc->ghi_chu }}</td>
                 <td>{{ $lopHoc->si_so }}</td>

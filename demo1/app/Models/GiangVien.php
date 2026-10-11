@@ -23,6 +23,11 @@ class GiangVien extends Model
         return $this->hasMany(LopHoc::class, 'giang_vien_id');
     }
 
+    public function monHocs()
+    {
+        return $this->hasMany(MonHoc::class, 'giang_vien_id');
+    }
+
     public function user()
     {
         return $this->hasOne(User::class, 'giang_vien_id');

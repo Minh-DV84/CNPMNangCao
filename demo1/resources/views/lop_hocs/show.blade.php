@@ -8,7 +8,7 @@
         <tr><th style="width: 220px">ID</th><td>{{ $lopHoc->id }}</td></tr>
         <tr><th>Tên lớp</th><td>{{ $lopHoc->ten_lop }}</td></tr>
         <tr><th>Mã lớp</th><td>{{ $lopHoc->ma_lop }}</td></tr>
-        <tr><th>Giáo viên</th><td>{{ $lopHoc->giao_vien }}</td></tr>
+        <tr><th>Giáo viên</th><td>{{ $lopHoc->giangVien?->ho_ten ?? $lopHoc->giao_vien }}</td></tr>
         <tr><th>Số điện thoại GVCN</th><td>{{ $lopHoc->so_dien_thoai_gvcn }}</td></tr>
         <tr><th>Ghi chú</th><td>{{ $lopHoc->ghi_chu }}</td></tr>
         <tr><th>Sĩ số</th><td>{{ $lopHoc->si_so }}</td></tr>

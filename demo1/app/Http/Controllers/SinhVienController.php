@@ -6,7 +6,10 @@ use App\Http\Requests\StoreSinhVienRequest;
 use App\Http\Requests\UpdateSinhVienRequest;
 use App\Models\SinhVien;
 use App\Models\LopHoc;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class SinhVienController extends Controller
@@ -64,6 +67,7 @@ class SinhVienController extends Controller
 
         return view('sinhvien.index', [
             'sinhViens' => $sinhViens,
+            'lopHocs' => $lopHocs,
             'filters' => $filters,
             'sort' => $sort,
             'direction' => $direction,
@@ -87,7 +91,17 @@ class SinhVienController extends Controller
      */
     public function store(StoreSinhVienRequest $request)
     {
-        SinhVien::create($request->validated());
+        DB::transaction(function () use ($request) {
+            $sinhVien = SinhVien::create($request->validated());
+
+            User::create([
+                'name' => $sinhVien->ho_ten,
+                'email' => null,
+                'password' => Hash::make('SinhVien@123'),
+                'role' => 'sinh_vien',
+                'sinh_vien_id' => $sinhVien->id,
+            ]);
+        });
 
         return redirect()->route('sinhvien.index')->with('success', 'Sinh viên đã được tạo thành công.');
     }
@@ -130,7 +144,10 @@ class SinhVienController extends Controller
      */
     public function destroy(SinhVien $sinhvien)
     {
-        $sinhvien->delete();
+        DB::transaction(function () use ($sinhvien) {
+            User::where('sinh_vien_id', $sinhvien->id)->delete();
+            $sinhvien->delete();
+        });
 
         return back()->with('success', 'Sinh viên đã được xóa.');
     }

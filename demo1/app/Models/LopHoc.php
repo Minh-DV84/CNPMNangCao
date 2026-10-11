@@ -30,4 +30,9 @@ class LopHoc extends Model
     {
         return $this->belongsTo(GiangVien::class, 'giang_vien_id');
     }
+
+    public function monHocs()
+    {
+        return $this->belongsToMany(MonHoc::class, 'lop_hoc_mon_hoc');
+    }
 }
