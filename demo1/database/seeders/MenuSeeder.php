@@ -24,6 +24,7 @@ class MenuSeeder extends Seeder
 
             ['ten' => 'Sinh viên', 'url' => '/sinhvien', 'vi_tri' => 'sidebar', 'nhom' => 'Quản lý', 'roles' => 'admin,giang_vien'],
             ['ten' => 'Quản lý lớp học', 'url' => '/lophoc', 'vi_tri' => 'sidebar', 'nhom' => 'Quản lý', 'roles' => 'admin,giang_vien'],
+            ['ten' => 'Quản lý người dùng', 'url' => '/users', 'vi_tri' => 'sidebar', 'nhom' => 'Quản lý', 'roles' => 'admin,giang_vien'],
             ['ten' => 'Quản lý menu', 'url' => '/menu', 'vi_tri' => 'sidebar', 'nhom' => 'Quản lý', 'roles' => 'admin'],
 
             ['ten' => 'Bài giảng', 'url' => '/baigiang', 'vi_tri' => 'sidebar', 'nhom' => 'Học tập', 'roles' => 'admin,giang_vien,sinh_vien'],

@@ -23,6 +23,13 @@ class LopHocResource extends JsonResource
             'ghi_chu' => $this->ghi_chu,
             'si_so' => $this->si_so,
             'trang_thai' => $this->trang_thai,
+            'giang_vien' => $this->whenLoaded('giangVien', function () {
+                return [
+                    'id' => $this->giangVien->id,
+                    'ho_ten' => $this->giangVien->ho_ten,
+                    'ma_gv' => $this->giangVien->ma_gv,
+                ];
+            }),
         ];
     }
 }

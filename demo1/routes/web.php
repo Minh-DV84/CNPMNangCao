@@ -11,6 +11,7 @@ use App\Http\Controllers\TaiLieuController;
 use App\Http\Controllers\BaiTapController;
 use App\Http\Controllers\BaiNopController;
 use App\Http\Controllers\DiemController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckGioHanhChinh;
 
 // Redirect home based on auth status
@@ -89,6 +90,17 @@ Route::middleware(['auth'])->group(function () {
     // menu: admin only
     Route::middleware(['role:admin', 'check.gio.hanh.chinh'])->group(function () {
         Route::resource('menu', MenuController::class)->except('show');
+    });
+
+    // users: admin full, giang_vien only view/edit self
+    Route::middleware('role:admin,giang_vien')->group(function () {
+        Route::resource('users', UserController::class)->only(['index', 'show']);
+    });
+    Route::middleware('role:admin')->group(function () {
+        Route::resource('users', UserController::class)->only(['create', 'store', 'destroy']);
+    });
+    Route::middleware('role:admin,giang_vien')->group(function () {
+        Route::resource('users', UserController::class)->only(['edit', 'update']);
     });
 });
 
