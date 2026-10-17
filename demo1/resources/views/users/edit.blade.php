@@ -38,15 +38,12 @@
 
         <div class="mb-3">
             <label for="role" class="form-label">Vai trò <span class="text-danger">*</span></label>
-            <select id="role" name="role" class="form-select" required onchange="toggleRoleFields()" @if ($currentUser->role === 'giang_vien') disabled @endif>
+            <select id="role" name="role" class="form-select" required onchange="toggleRoleFields()">
                 <option value="">-- Chọn vai trò --</option>
                 @foreach ($roleOptions as $value => $label)
                     <option value="{{ $value }}" @selected(old('role', $user->role) === $value)>{{ $label }}</option>
                 @endforeach
             </select>
-            @if ($currentUser->role === 'giang_vien')
-                <input type="hidden" name="role" value="{{ $user->role }}">
-            @endif
         </div>
 
         <div class="mb-3" id="sinh_vien_field" style="display: none;">

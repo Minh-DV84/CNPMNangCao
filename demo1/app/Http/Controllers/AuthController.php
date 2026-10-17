@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SinhVien;
 use App\Models\User;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -27,20 +28,13 @@ class AuthController extends Controller
     /**
      * Xử lý đăng nhập
      */
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $request->validate([
-            'login' => 'required|string',
-            'password' => 'required|string',
-            'remember' => 'nullable|boolean',
-        ], [
-            'login.required' => 'Vui lòng nhập email hoặc mã sinh viên.',
-            'password.required' => 'Vui lòng nhập mật khẩu.',
-        ]);
+        $validated = $request->validated();
 
-        $login = $request->input('login');
-        $password = $request->input('password');
-        $remember = $request->boolean('remember');
+        $login = $validated['login'];
+        $password = $validated['password'];
+        $remember = $validated['remember'] ?? false;
 
         // Kiểm tra rate limiting: 5 lần/phút theo (tài khoản + IP)
         $key = 'login:' . $login . ':' . $request->ip();

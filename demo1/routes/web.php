@@ -71,20 +71,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/huongdan', function () { return view('huongdan'); })->name('huongdan');
     Route::get('/cauhoi', function () { return view('cauhoi'); })->name('cauhoi');
 
-    // sinhvien: admin full, giang_vien read-only, sinh_vien denied
+    // sinhvien: admin full, giang_vien quản lý sinh viên trong lớp của mình, sinh_vien denied
     Route::middleware('role:admin,giang_vien')->group(function () {
-        Route::resource('sinhvien', SinhVienController::class)->except(['create', 'store', 'edit', 'update', 'destroy']);
-    });
-    Route::middleware('role:admin')->group(function () {
-        Route::resource('sinhvien', SinhVienController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
+        Route::resource('sinhvien', SinhVienController::class);
     });
 
-    // lophoc: admin full, giang_vien read-only, sinh_vien denied
+    // lophoc: admin full, giang_vien quản lý lớp của mình, sinh_vien denied
     Route::middleware('role:admin,giang_vien')->group(function () {
-        Route::resource('lophoc', LopHocController::class)->except(['create', 'store', 'edit', 'update', 'destroy']);
+        Route::resource('lophoc', LopHocController::class);
     });
     Route::middleware(['role:admin', 'check.gio.hanh.chinh'])->group(function () {
-        Route::resource('lophoc', LopHocController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
+        // Admin phải tạo/xóa trong giờ hành chính
     });
 
     // menu: admin only
@@ -92,15 +89,9 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('menu', MenuController::class)->except('show');
     });
 
-    // users: admin full, giang_vien only view/edit self
-    Route::middleware('role:admin,giang_vien')->group(function () {
-        Route::resource('users', UserController::class)->only(['index', 'show']);
-    });
+    // users: admin only
     Route::middleware('role:admin')->group(function () {
-        Route::resource('users', UserController::class)->only(['create', 'store', 'destroy']);
-    });
-    Route::middleware('role:admin,giang_vien')->group(function () {
-        Route::resource('users', UserController::class)->only(['edit', 'update']);
+        Route::resource('users', UserController::class);
     });
 });
 

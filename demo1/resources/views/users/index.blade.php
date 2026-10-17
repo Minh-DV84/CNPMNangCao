@@ -40,9 +40,7 @@
 
 @section('content')
     <h1>Quản lý người dùng</h1>
-    @if ($currentUser->role === 'admin')
-        <a href="{{ route('users.create') }}" class="btn btn-primary mb-3">Thêm người dùng</a>
-    @endif
+    <a href="{{ route('users.create') }}" class="btn btn-primary mb-3">Thêm người dùng</a>
     @if (session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
@@ -141,10 +139,8 @@
                 </td>
                 <td>
                     <a href="{{ route('users.show', $user) }}" class="btn btn-sm btn-info">Xem</a>
-                    @if ($currentUser->role === 'admin' || $currentUser->id === $user->id)
-                        <a href="{{ route('users.edit', $user) }}" class="btn btn-sm btn-primary">Sửa</a>
-                    @endif
-                    @if ($currentUser->role === 'admin' && $currentUser->id !== $user->id)
+                    <a href="{{ route('users.edit', $user) }}" class="btn btn-sm btn-primary">Sửa</a>
+                    @if (auth()->id() !== $user->id)
                         <form action="{{ route('users.destroy', $user) }}" method="POST" style="display: inline;">
                             @csrf
                             @method('DELETE')

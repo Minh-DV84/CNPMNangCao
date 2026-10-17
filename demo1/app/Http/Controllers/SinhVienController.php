@@ -82,7 +82,14 @@ class SinhVienController extends Controller
      */
     public function create()
     {
-        $lopHocs = LopHoc::orderBy('ten_lop')->get();
+        $user = request()->user();
+        $lopHocsQuery = LopHoc::orderBy('ten_lop');
+
+        if ($user->role === 'giang_vien') {
+            $lopHocsQuery->where('giang_vien_id', $user->giang_vien_id);
+        }
+
+        $lopHocs = $lopHocsQuery->get();
         return view('sinhvien.create', ['lopHocs' => $lopHocs]);
     }
 
@@ -91,6 +98,15 @@ class SinhVienController extends Controller
      */
     public function store(StoreSinhVienRequest $request)
     {
+        $user = request()->user();
+
+        if ($user->role === 'giang_vien') {
+            $lopHoc = LopHoc::find($request->lop_hoc_id);
+            if (!$lopHoc || $lopHoc->giang_vien_id !== $user->giang_vien_id) {
+                abort(403, 'Bạn không có quyền thêm sinh viên vào lớp này.');
+            }
+        }
+
         DB::transaction(function () use ($request) {
             $sinhVien = SinhVien::create($request->validated());
 
@@ -125,7 +141,18 @@ class SinhVienController extends Controller
      */
     public function edit(SinhVien $sinhvien)
     {
-        $lopHocs = LopHoc::orderBy('ten_lop')->get();
+        $user = request()->user();
+
+        if ($user->role === 'giang_vien' && $sinhvien->lopHoc?->giang_vien_id !== $user->giang_vien_id) {
+            abort(403, 'Bạn không có quyền sửa sinh viên này.');
+        }
+
+        $lopHocsQuery = LopHoc::orderBy('ten_lop');
+        if ($user->role === 'giang_vien') {
+            $lopHocsQuery->where('giang_vien_id', $user->giang_vien_id);
+        }
+        $lopHocs = $lopHocsQuery->get();
+
         return view('sinhvien.edit', ['sinhVien' => $sinhvien, 'lopHocs' => $lopHocs]);
     }
 
@@ -134,6 +161,21 @@ class SinhVienController extends Controller
      */
     public function update(UpdateSinhVienRequest $request, SinhVien $sinhvien)
     {
+        $user = request()->user();
+
+        if ($user->role === 'giang_vien') {
+            if ($sinhvien->lopHoc?->giang_vien_id !== $user->giang_vien_id) {
+                abort(403, 'Bạn không có quyền sửa sinh viên này.');
+            }
+
+            if ($request->lop_hoc_id) {
+                $lopHoc = LopHoc::find($request->lop_hoc_id);
+                if (!$lopHoc || $lopHoc->giang_vien_id !== $user->giang_vien_id) {
+                    abort(403, 'Bạn không có quyền chuyển sinh viên vào lớp này.');
+                }
+            }
+        }
+
         $sinhvien->update($request->validated());
 
         return redirect()->route('sinhvien.index')->with('success', 'Sinh viên đã được cập nhật thành công.');
@@ -144,6 +186,12 @@ class SinhVienController extends Controller
      */
     public function destroy(SinhVien $sinhvien)
     {
+        $user = request()->user();
+
+        if ($user->role === 'giang_vien' && $sinhvien->lopHoc?->giang_vien_id !== $user->giang_vien_id) {
+            abort(403, 'Bạn không có quyền xóa sinh viên này.');
+        }
+
         DB::transaction(function () use ($sinhvien) {
             User::where('sinh_vien_id', $sinhvien->id)->delete();
             $sinhvien->delete();

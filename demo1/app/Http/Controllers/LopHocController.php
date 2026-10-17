@@ -20,6 +20,8 @@ class LopHocController extends Controller
      */
     public function index(Request $request)
     {
+        $currentUser = $request->user();
+
         // Tham số lọc/sắp xếp nằm trên URL nên người dùng sửa tuỳ ý được:
         // valid() chỉ giữ lại những tham số hợp lệ, cái nào sai thì bỏ qua.
         $filters = Validator::make($request->query(), [
@@ -38,6 +40,9 @@ class LopHocController extends Controller
 
         $lopHocs = LopHoc::query()
             ->with('giangVien')
+            ->when($currentUser->role === 'giang_vien', function ($query) use ($currentUser) {
+                $query->where('giang_vien_id', $currentUser->giang_vien_id);
+            })
             ->when(isset($filters['keyword']), function ($query) use ($filters) {
                 $keyword = '%' . $filters['keyword'] . '%';
                 $query->where(function ($q) use ($keyword) {
@@ -89,6 +94,12 @@ class LopHocController extends Controller
      */
     public function show(LopHoc $lophoc)
     {
+        $currentUser = request()->user();
+
+        if ($currentUser->role === 'giang_vien' && $lophoc->giang_vien_id !== $currentUser->giang_vien_id) {
+            abort(403, 'Bạn không có quyền xem lớp học này.');
+        }
+
         return view('lop_hocs.show', ['lopHoc' => $lophoc->load('giangVien')]);
     }
 
@@ -97,6 +108,12 @@ class LopHocController extends Controller
      */
     public function edit(LopHoc $lophoc)
     {
+        $currentUser = request()->user();
+
+        if ($currentUser->role === 'giang_vien' && $lophoc->giang_vien_id !== $currentUser->giang_vien_id) {
+            abort(403, 'Bạn không có quyền sửa lớp học này.');
+        }
+
         return view('lop_hocs.edit', ['lopHoc' => $lophoc]);
     }
 
@@ -105,6 +122,12 @@ class LopHocController extends Controller
      */
     public function update(UpdateLopHocRequest $request, LopHoc $lophoc)
     {
+        $currentUser = request()->user();
+
+        if ($currentUser->role === 'giang_vien' && $lophoc->giang_vien_id !== $currentUser->giang_vien_id) {
+            abort(403, 'Bạn không có quyền sửa lớp học này.');
+        }
+
         $lophoc->update($request->validated());
 
         return redirect()->route('lophoc.index')->with('success', 'Lớp học đã được cập nhật thành công.');
@@ -115,6 +138,12 @@ class LopHocController extends Controller
      */
     public function destroy(LopHoc $lophoc)
     {
+        $currentUser = request()->user();
+
+        if ($currentUser->role === 'giang_vien' && $lophoc->giang_vien_id !== $currentUser->giang_vien_id) {
+            abort(403, 'Bạn không có quyền xóa lớp học này.');
+        }
+
         $lophoc->delete();
 
         // back() để giữ nguyên bộ lọc/sắp xếp đang xem
